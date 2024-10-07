@@ -1,13 +1,13 @@
-/// Transforms SDA3 HS.SDA3.Provenance to vR4 Provenance
-Class HS.FHIR.DTL.SDA3.vR4.Provenance.Provenance Extends Ens.DataTransformDTL [ DependsOn = (HS.SDA3.Provenance, HS.FHIR.DTL.vR4.Model.Resource.Provenance), ProcedureBlock ]
+/// Transforms SDA3 HS.SDA3.Provenance to vSTU3 Provenance
+Class HS.FHIR.DTL.SDA3.vSTU3.Provenance.Provenance Extends Ens.DataTransformDTL [ DependsOn = (HS.SDA3.Provenance, HS.FHIR.DTL.vSTU3.Model.Resource.Provenance), ProcedureBlock ]
 {
 
 /// This DTL XData block was generated. Do not modify it.
 XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 {
-<transform sourceClass='HS.SDA3.Provenance' targetClass='HS.FHIR.DTL.vR4.Model.Resource.Provenance' create='existing' language='objectscript' >
+<transform sourceClass='HS.SDA3.Provenance' targetClass='HS.FHIR.DTL.vSTU3.Model.Resource.Provenance' create='existing' language='objectscript' >
   <annotation>
-    <![CDATA[ Transforms HS.SDA3.Provenance (SDA3) to Provenance (vR4) ]]>
+    <![CDATA[ Transforms HS.SDA3.Provenance (SDA3) to Provenance (vSTU3) ]]>
   </annotation>
 <assign value='##class(HS.FHIR.DTL.Util.Element.TypeCast).DateToFHIR(source.Recorded, "instant")' property='value' action='set' />
 <if condition='value&apos;=""'> 
@@ -19,9 +19,9 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 </annotation>
 </assign></true> 
 </if> 
-<if condition='##class(%Dictionary.ClassDefinition).%ExistsId("HS.FHIR.DTL.Mapping.Extension.SDA3.vR4.Provenance.Provenance")'> 
+<if condition='##class(%Dictionary.ClassDefinition).%ExistsId("HS.FHIR.DTL.Mapping.Extension.SDA3.vSTU3.Provenance.Provenance")'> 
 <true>
-<assign value='##class(HS.FHIR.DTL.Mapping.Extension.SDA3.vR4.Provenance.Provenance).Transform(source.Extension, .target, .aux)' property='target' action='set' />
+<assign value='##class(HS.FHIR.DTL.Mapping.Extension.SDA3.vSTU3.Provenance.Provenance).Transform(source.Extension, .target, .aux)' property='target' action='set' />
 </true>
 </if>
 </transform>

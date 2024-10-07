@@ -1,13 +1,13 @@
-/// Transforms SDA3 HS.SDA3.Name to vR4 HumanName
-Class HS.FHIR.DTL.SDA3.vR4.Name.HumanName Extends Ens.DataTransformDTL [ DependsOn = (HS.SDA3.Name, HS.FHIR.DTL.vR4.Model.Datatype.HumanName), ProcedureBlock ]
+/// Transforms SDA3 HS.SDA3.Name to vSTU3 HumanName
+Class HS.FHIR.DTL.SDA3.vSTU3.Name.HumanName Extends Ens.DataTransformDTL [ DependsOn = (HS.SDA3.Name, HS.FHIR.DTL.vSTU3.Model.Datatype.HumanName), ProcedureBlock ]
 {
 
 /// This DTL XData block was generated. Do not modify it.
 XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 {
-<transform sourceClass='HS.SDA3.Name' targetClass='HS.FHIR.DTL.vR4.Model.Datatype.HumanName' create='existing' language='objectscript' >
+<transform sourceClass='HS.SDA3.Name' targetClass='HS.FHIR.DTL.vSTU3.Model.Datatype.HumanName' create='existing' language='objectscript' >
   <annotation>
-    <![CDATA[ Transforms HS.SDA3.Name (SDA3) to HumanName (vR4) ]]>
+    <![CDATA[ Transforms HS.SDA3.Name (SDA3) to HumanName (vSTU3) ]]>
   </annotation>
 <assign value='##class(HS.FHIR.DTL.Util.SDA3.Handler.Name).Text(source.FamilyName, source.NamePrefix, source.NameSuffix, source.GivenName, source.MiddleName, source.ProfessionalSuffix, source.FamilyNamePrefix)' property='value' action='set' />
 <if condition='value&apos;=""'> 
@@ -93,7 +93,7 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 </if> 
 </true>
 </if>
-<assign value='##class(HS.FHIR.DTL.Util.Lookup).Code("SDA3","vR4","HS.SDA3.Name:Type","name-use|4.0.1",source.Type)' property='value' action='set' />
+<assign value='##class(HS.FHIR.DTL.Util.Lookup).Code("SDA3","vSTU3","HS.SDA3.Name:Type","name-use",source.Type)' property='value' action='set' />
 <if condition='value&apos;=""'> 
 <true>
 <assign value='value' property='target.use' action='set' >
@@ -106,11 +106,11 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 </if> 
 <if condition='source.Type&apos;=""'> 
 <true>
-<if condition='(##class(HS.FHIR.DTL.Util.Lookup).Code("SDA3","vR4","HS.SDA3.Name:Type","name-use|4.0.1",source.Type) = "")'> 
+<if condition='(##class(HS.FHIR.DTL.Util.Lookup).Code("SDA3","vSTU3","HS.SDA3.Name:Type","name-use",source.Type) = "")'> 
 <true>
 <assign value='target.extension.Count()+1' property='index' action='set' />
-<assign value='##class(HS.FHIR.DTL.vR4.Model.Base.Extension).%New()' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.Type, "HS.FHIR.DTL.SubXFrm.SDA3.vR4.String.Extension")' property='DTL' action='set' />
+<assign value='##class(HS.FHIR.DTL.vSTU3.Model.Base.Extension).%New()' property='tmp' action='set' />
+<assign value='aux("transformer").GetDTL(source.Type, "HS.FHIR.DTL.SubXFrm.SDA3.vSTU3.String.Extension")' property='DTL' action='set' />
 <if condition='DTL&apos;=""'> 
 <true>
 <assign value='$classmethod(DTL, "Transform", source.Type, .tmp, .aux)' property='status' action='set' />
@@ -119,7 +119,7 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <assign value='"http://intersystems.com/fhir/extn/sda3/lib/name-type"' property='tmp.url' action='set' />
 <assign value='tmp' property='target.extension' action='set' key='index'  >
 <annotation>
-<![CDATA[ Additional content defined by implementations
+<![CDATA[ Additional Content defined by implementations
  --- This mapping supports a related mapping that does a table lookup to match the incoming source value with a value to place in the target field. This mapping has the same Condition to Set this Field as the table lookup. If the lookup successfully finds a value for target field, this mapping stores the original source field value in a FHIR extension.    ]]>
 </annotation>
 </assign></true> 
@@ -131,9 +131,9 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 </if>
 </true>
 </if>
-<if condition='##class(%Dictionary.ClassDefinition).%ExistsId("HS.FHIR.DTL.Mapping.Extension.SDA3.vR4.Name.HumanName")'> 
+<if condition='##class(%Dictionary.ClassDefinition).%ExistsId("HS.FHIR.DTL.Mapping.Extension.SDA3.vSTU3.Name.HumanName")'> 
 <true>
-<assign value='##class(HS.FHIR.DTL.Mapping.Extension.SDA3.vR4.Name.HumanName).Transform(source.Extension, .target, .aux)' property='target' action='set' />
+<assign value='##class(HS.FHIR.DTL.Mapping.Extension.SDA3.vSTU3.Name.HumanName).Transform(source.Extension, .target, .aux)' property='target' action='set' />
 </true>
 </if>
 </transform>

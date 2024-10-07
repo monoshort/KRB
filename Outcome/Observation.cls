@@ -1,39 +1,27 @@
-/// Transforms SDA3 HS.SDA3.Outcome to vR4 Observation
-Class HS.FHIR.DTL.SDA3.vR4.Outcome.Observation Extends Ens.DataTransformDTL [ DependsOn = (HS.SDA3.Outcome, HS.FHIR.DTL.vR4.Model.Resource.Observation), ProcedureBlock ]
+/// Transforms SDA3 HS.SDA3.Outcome to vSTU3 Observation
+Class HS.FHIR.DTL.SDA3.vSTU3.Outcome.Observation Extends Ens.DataTransformDTL [ DependsOn = (HS.SDA3.Outcome, HS.FHIR.DTL.vSTU3.Model.Resource.Observation), ProcedureBlock ]
 {
 
 /// This DTL XData block was generated. Do not modify it.
 XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 {
-<transform sourceClass='HS.SDA3.Outcome' targetClass='HS.FHIR.DTL.vR4.Model.Resource.Observation' create='existing' language='objectscript' >
+<transform sourceClass='HS.SDA3.Outcome' targetClass='HS.FHIR.DTL.vSTU3.Model.Resource.Observation' create='existing' language='objectscript' >
   <annotation>
-    <![CDATA[ Transforms HS.SDA3.Outcome (SDA3) to Observation (vR4) ]]>
+    <![CDATA[ Transforms HS.SDA3.Outcome (SDA3) to Observation (vSTU3) ]]>
   </annotation>
 <if condition='source.Description&apos;=""'> 
-<true>
-<assign value='target.note.Count()+1' property='index' action='set' />
-<assign value='##class(HS.FHIR.DTL.vR4.Model.Datatype.Annotation).%New()' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.Description, "HS.FHIR.DTL.SubXFrm.SDA3.vR4.String.Annotation")' property='DTL' action='set' />
-<if condition='DTL&apos;=""'> 
-<true>
-<assign value='$classmethod(DTL, "Transform", source.Description, .tmp, .aux)' property='status' action='set' />
-<if condition='tmp&apos;=""'> 
-<true>
-<assign value='tmp' property='target.note' action='set' key='index'  >
+<true> 
+<assign value='source.Description' property='target.comment' action='set' >
 <annotation>
-<![CDATA[ Comments about the observation ]]>
+<![CDATA[ Comments about result ]]>
 </annotation>
 </assign></true> 
-</if>
-</true>
-</if>
+</if> 
 
-</true>
-</if>
 <if condition='##class(HS.FHIR.DTL.Util.Element.Object).Defined(source, "Observation")'> 
 <true>
 <assign value='target' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.Observation, "HS.FHIR.DTL.SDA3.vR4.Observation.Observation")' property='DTL' action='set' />
+<assign value='aux("transformer").GetDTL(source.Observation, "HS.FHIR.DTL.SDA3.vSTU3.Observation.Observation")' property='DTL' action='set' />
 <if condition='DTL&apos;=""'> 
 <true>
 <assign value='$classmethod(DTL, "Transform", source.Observation, .tmp, .aux)' property='status' action='set' />
@@ -41,7 +29,7 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <true>
 <assign value='tmp' property='target' action='set'  >
 <annotation>
-<![CDATA[ Measurements and simple assertions ]]>
+<![CDATA[ Measurements and simple assertions made about a patient, device or other subject. ]]>
 </annotation>
 </assign></true> 
 </if>
@@ -49,9 +37,9 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 </if>
 </true> 
 </if>
-<if condition='##class(%Dictionary.ClassDefinition).%ExistsId("HS.FHIR.DTL.Mapping.Extension.SDA3.vR4.Outcome.Observation")'> 
+<if condition='##class(%Dictionary.ClassDefinition).%ExistsId("HS.FHIR.DTL.Mapping.Extension.SDA3.vSTU3.Outcome.Observation")'> 
 <true>
-<assign value='##class(HS.FHIR.DTL.Mapping.Extension.SDA3.vR4.Outcome.Observation).Transform(source.Extension, .target, .aux)' property='target' action='set' />
+<assign value='##class(HS.FHIR.DTL.Mapping.Extension.SDA3.vSTU3.Outcome.Observation).Transform(source.Extension, .target, .aux)' property='target' action='set' />
 </true>
 </if>
 </transform>

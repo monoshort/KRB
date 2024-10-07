@@ -1,13 +1,13 @@
-/// Transforms SDA3 HS.SDA3.ObservationGroup to vR4 Observation
-Class HS.FHIR.DTL.SDA3.vR4.ObservationGroup.Observation Extends Ens.DataTransformDTL [ DependsOn = (HS.SDA3.ObservationGroup, HS.FHIR.DTL.vR4.Model.Resource.Observation), ProcedureBlock ]
+/// Transforms SDA3 HS.SDA3.ObservationGroup to vSTU3 Observation
+Class HS.FHIR.DTL.SDA3.vSTU3.ObservationGroup.Observation Extends Ens.DataTransformDTL [ DependsOn = (HS.SDA3.ObservationGroup, HS.FHIR.DTL.vSTU3.Model.Resource.Observation), ProcedureBlock ]
 {
 
 /// This DTL XData block was generated. Do not modify it.
 XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 {
-<transform sourceClass='HS.SDA3.ObservationGroup' targetClass='HS.FHIR.DTL.vR4.Model.Resource.Observation' create='existing' language='objectscript' >
+<transform sourceClass='HS.SDA3.ObservationGroup' targetClass='HS.FHIR.DTL.vSTU3.Model.Resource.Observation' create='existing' language='objectscript' >
   <annotation>
-    <![CDATA[ Transforms HS.SDA3.ObservationGroup (SDA3) to Observation (vR4) ]]>
+    <![CDATA[ Transforms HS.SDA3.ObservationGroup (SDA3) to Observation (vSTU3) ]]>
   </annotation>
 <assign value='"unknown"' property='target.status' action='set' >
 <annotation>
@@ -32,7 +32,7 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
  --- This target is one field within a CodeableConcept object assigned to the target Observation:category.    ]]>
 </annotation>
 </assign>
-<assign value='"http://terminology.hl7.org/CodeSystem/observation-category"' property='target.category.(1).coding.(1).system' action='set' >
+<assign value='"http://hl7.org/fhir/observation-category"' property='target.category.(1).coding.(1).system' action='set' >
 <annotation>
 <![CDATA[ Identity of the terminology system
  --- This target is one field within a CodeableConcept object assigned to the target Observation:category.    ]]>
@@ -43,7 +43,7 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <true>
 <assign value='value' property='target.subject' action='set' >
 <annotation>
-<![CDATA[ Who and/or what the observation is about ]]>
+<![CDATA[ Who and/or what this is about ]]>
 </annotation>
 </assign></true> 
 </if> 
@@ -60,7 +60,7 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <assign value='aux("transformer").GetReference("Encounter",source.EncounterNumber)' property='value' action='set' />
 <if condition='value&apos;=""'> 
 <true>
-<assign value='value' property='target.encounter' action='set' >
+<assign value='value' property='target.context' action='set' >
 <annotation>
 <![CDATA[ Healthcare event during which this observation is made ]]>
 </annotation>
@@ -68,8 +68,8 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 </if> 
 <if condition='##class(HS.FHIR.DTL.Util.Element.Object).Defined(source, "ObservationGroupCode")'> 
 <true>
-<assign value='##class(HS.FHIR.DTL.vR4.Model.Datatype.CodeableConcept).%New()' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.ObservationGroupCode, "HS.FHIR.DTL.SDA3.vR4.CodeTableDetail.Observation.CodeableConcept")' property='DTL' action='set' />
+<assign value='##class(HS.FHIR.DTL.vSTU3.Model.Datatype.CodeableConcept).%New()' property='tmp' action='set' />
+<assign value='aux("transformer").GetDTL(source.ObservationGroupCode, "HS.FHIR.DTL.SDA3.vSTU3.CodeTableDetail.Observation.CodeableConcept")' property='DTL' action='set' />
 <if condition='DTL&apos;=""'> 
 <true>
 <assign value='$classmethod(DTL, "Transform", source.ObservationGroupCode, .tmp, .aux)' property='status' action='set' />
@@ -87,8 +87,8 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 </if>
 <foreach property='source.Observations()' key='st' >
 <assign value='target.component.Count()+1' property='index' action='set' />
-<assign value='##class(HS.FHIR.DTL.vR4.Model.Element.Observation.component).%New()' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.Observations.(st), "HS.FHIR.DTL.SDA3.vR4.Observation.Observation.component")' property='DTL' action='set' />
+<assign value='##class(HS.FHIR.DTL.vSTU3.Model.Element.Observation.component).%New()' property='tmp' action='set' />
+<assign value='aux("transformer").GetDTL(source.Observations.(st), "HS.FHIR.DTL.SDA3.vSTU3.Observation.Observation.component")' property='DTL' action='set' />
 <if condition='DTL&apos;=""'> 
 <true>
 <assign value='$classmethod(DTL, "Transform", source.Observations.(st), .tmp, .aux)' property='status' action='set' />
@@ -112,8 +112,8 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <if condition='##class(HS.FHIR.DTL.Util.Element.Object).Defined(source.Observations.(k1), "Clinician")'> 
 <true>
 <assign value='target.performer.Count()+1' property='index' action='set' />
-<assign value='##class(HS.FHIR.DTL.vR4.Model.Resource.Practitioner).%New()' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.Observations.(k1).Clinician, "HS.FHIR.DTL.SDA3.vR4.CodeTableDetail.CareProvider.Practitioner")' property='DTL' action='set' />
+<assign value='##class(HS.FHIR.DTL.vSTU3.Model.Resource.Practitioner).%New()' property='tmp' action='set' />
+<assign value='aux("transformer").GetDTL(source.Observations.(k1).Clinician, "HS.FHIR.DTL.SDA3.vSTU3.CodeTableDetail.CareProvider.Practitioner")' property='DTL' action='set' />
 <if condition='DTL&apos;=""'> 
 <true>
 <assign value='$classmethod(DTL, "Transform", source.Observations.(k1).Clinician, .tmp, .aux)' property='status' action='set' />
@@ -144,13 +144,13 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <true>
 <assign value='value' property='target.effectiveDateTime' action='set' >
 <annotation>
-<![CDATA[ Clinically relevant time/time-period for observation ]]>
+<![CDATA[ Clinically relevant time/time-period for observation. ]]>
 </annotation>
 </assign></true> 
 </if> 
-<if condition='##class(%Dictionary.ClassDefinition).%ExistsId("HS.FHIR.DTL.Mapping.Extension.SDA3.vR4.ObservationGroup.Observation")'> 
+<if condition='##class(%Dictionary.ClassDefinition).%ExistsId("HS.FHIR.DTL.Mapping.Extension.SDA3.vSTU3.ObservationGroup.Observation")'> 
 <true>
-<assign value='##class(HS.FHIR.DTL.Mapping.Extension.SDA3.vR4.ObservationGroup.Observation).Transform(source.Extension, .target, .aux)' property='target' action='set' />
+<assign value='##class(HS.FHIR.DTL.Mapping.Extension.SDA3.vSTU3.ObservationGroup.Observation).Transform(source.Extension, .target, .aux)' property='target' action='set' />
 </true>
 </if>
 </transform>
