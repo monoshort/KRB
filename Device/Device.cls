@@ -1,13 +1,13 @@
-/// Transforms SDA3 HS.SDA3.Device to vR4 Device
-Class HS.FHIR.DTL.SDA3.vR4.Device.Device Extends Ens.DataTransformDTL [ DependsOn = (HS.SDA3.Device, HS.FHIR.DTL.vR4.Model.Resource.Device), ProcedureBlock ]
+/// Transforms SDA3 HS.SDA3.Device to vSTU3 Device
+Class HS.FHIR.DTL.SDA3.vSTU3.Device.Device Extends Ens.DataTransformDTL [ DependsOn = (HS.SDA3.Device, HS.FHIR.DTL.vSTU3.Model.Resource.Device), ProcedureBlock ]
 {
 
 /// This DTL XData block was generated. Do not modify it.
 XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 {
-<transform sourceClass='HS.SDA3.Device' targetClass='HS.FHIR.DTL.vR4.Model.Resource.Device' create='existing' language='objectscript' >
+<transform sourceClass='HS.SDA3.Device' targetClass='HS.FHIR.DTL.vSTU3.Model.Resource.Device' create='existing' language='objectscript' >
   <annotation>
-    <![CDATA[ Transforms HS.SDA3.Device (SDA3) to Device (vR4) ]]>
+    <![CDATA[ Transforms HS.SDA3.Device (SDA3) to Device (vSTU3) ]]>
   </annotation>
 <assign value='aux("transformer").GetPatientReference()' property='value' action='set' />
 <if condition='value&apos;=""'> 
@@ -20,8 +20,8 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 </if> 
 <if condition='##class(HS.FHIR.DTL.Util.Element.Object).Defined(source, "Device")'> 
 <true>
-<assign value='##class(HS.FHIR.DTL.vR4.Model.Datatype.CodeableConcept).%New()' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.Device, "HS.FHIR.DTL.SDA3.vR4.CodeTableDetail.CodeableConcept")' property='DTL' action='set' />
+<assign value='##class(HS.FHIR.DTL.vSTU3.Model.Datatype.CodeableConcept).%New()' property='tmp' action='set' />
+<assign value='aux("transformer").GetDTL(source.Device, "HS.FHIR.DTL.SDA3.vSTU3.CodeTableDetail.CodeableConcept")' property='DTL' action='set' />
 <if condition='DTL&apos;=""'> 
 <true>
 <assign value='$classmethod(DTL, "Transform", source.Device, .tmp, .aux)' property='status' action='set' />
@@ -29,8 +29,8 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <true>
 <assign value='tmp' property='target.type' action='set'  >
 <annotation>
-<![CDATA[ The kind or type of device
- --- In this case, any FHIR4 code may be used; device-type shows Example codes, but you may use codes from any ValueSet. 
+<![CDATA[ What kind of device this is
+ --- In this case, any FHIR3 code may be used; device-kind shows Example codes, but you may use codes from any ValueSet. 
  --- SDA does not restrict code values to a particular set.    ]]>
 </annotation>
 </assign></true> 
@@ -39,15 +39,6 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 </if>
 </true> 
 </if>
-<if condition='source.DistinctIdentifier&apos;=""'> 
-<true> 
-<assign value='source.DistinctIdentifier' property='target.distinctIdentifier' action='set' >
-<annotation>
-<![CDATA[ The distinct identification string ]]>
-</annotation>
-</assign></true> 
-</if> 
-
 <assign value='##class(HS.FHIR.DTL.Util.Element.TypeCast).DateToFHIR(source.ExpirationDate, "dateTime")' property='value' action='set' />
 <if condition='value&apos;=""'> 
 <true>
@@ -75,18 +66,9 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 </annotation>
 </assign></true> 
 </if> 
-<if condition='source.SerialNumber&apos;=""'> 
-<true> 
-<assign value='source.SerialNumber' property='target.serialNumber' action='set' >
-<annotation>
-<![CDATA[ Serial number assigned by the manufacturer ]]>
-</annotation>
-</assign></true> 
-</if> 
-
 <if condition='##class(HS.FHIR.DTL.Util.Element.Object).Defined(source, "Status")'> 
 <true>
-<assign value='##class(HS.FHIR.DTL.Util.Lookup).CodeTable(source.Status, "Device", "status", .aux)' property='value' action='set' />
+<assign value='##class(HS.FHIR.DTL.Util.Lookup).Code("SDA3","vSTU3","HS.SDA3.CodeTableDetail.DeviceStatus","device-status",source.Status)' property='value' action='set' />
 <if condition='value&apos;=""'> 
 <true>
 <assign value='value' property='target.status' action='set' >
@@ -98,38 +80,12 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 </assign></true> 
 </if> </true> 
 </if>
-<if condition='source.IsDefined("Status") &amp;&amp; ##class(HS.FHIR.DTL.Util.Lookup).CodeTable(source.Status, "Device", "status", .aux) = ""'> 
-<true>
-<if condition='##class(HS.FHIR.DTL.Util.Element.Object).Defined(source, "Status")'> 
-<true>
-<assign value='target.extension.Count()+1' property='index' action='set' />
-<assign value='##class(HS.FHIR.DTL.vR4.Model.Base.Extension).%New()' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.Status, "HS.FHIR.DTL.SDA3.vR4.CodeTableTranslated.Extension")' property='DTL' action='set' />
-<if condition='DTL&apos;=""'> 
-<true>
-<assign value='$classmethod(DTL, "Transform", source.Status, .tmp, .aux)' property='status' action='set' />
-<if condition='tmp&apos;=""'> 
-<true>
-<assign value='"http://intersystems.com/fhir/extn/sda3/lib/device-status"' property='tmp.url' action='set' />
-<assign value='tmp' property='target.extension' action='set' key='index'  >
-<annotation>
-<![CDATA[ Additional content defined by implementations
- --- This mapping supports a related mapping that does a table lookup to match the incoming source value with a value to place in the target field. This mapping has the same Condition to Set this Field as the table lookup. If the lookup successfully finds a value for target field, this mapping stores the original source field value in a FHIR extension.    ]]>
-</annotation>
-</assign></true> 
-</if>
-</true>
-</if>
-</true> 
-</if>
-</true>
-</if>
 <if condition='source.UDIAssigningAuthority&apos;=""'> 
 <true>
 <assign value='##class(HS.FHIR.DTL.Util.Lookup).GetURIForCode(source.UDIAssigningAuthority)' property='value' action='set' />
 <if condition='value&apos;=""'> 
 <true>
-<assign value='value' property='target.udiCarrier.(1).jurisdiction' action='set' >
+<assign value='value' property='target.udi.jurisdiction' action='set' >
 <annotation>
 <![CDATA[ Regional UDI authority ]]>
 </annotation>
@@ -142,26 +98,22 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <if condition='##class(HS.FHIR.DTL.Util.Lookup).GetURIForCode(source.UDIAssigningAuthority) = ""'> 
 <true>
 <assign value='1' property='index' action='set' />
-<if condition='(target.udiCarrier&apos;="") &amp;&amp; (target.udiCarrier.Count() &gt; 0)'> 
+<if condition='target.udi&apos;=""'> 
 <true> 
-<if condition='target.udiCarrier.(1)&apos;=""'> 
-<true> 
-<assign value='target.udiCarrier.(1).extension.Count()+1' property='index' action='set' />
+<assign value='target.udi.extension.Count()+1' property='index' action='set' />
 </true> 
 </if> 
-</true> 
-</if> 
-<assign value='##class(HS.FHIR.DTL.vR4.Model.Base.Extension).%New()' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.UDIAssigningAuthority, "HS.FHIR.DTL.SubXFrm.SDA3.vR4.String.Extension")' property='DTL' action='set' />
+<assign value='##class(HS.FHIR.DTL.vSTU3.Model.Base.Extension).%New()' property='tmp' action='set' />
+<assign value='aux("transformer").GetDTL(source.UDIAssigningAuthority, "HS.FHIR.DTL.SubXFrm.SDA3.vSTU3.String.Extension")' property='DTL' action='set' />
 <if condition='DTL&apos;=""'> 
 <true>
 <assign value='$classmethod(DTL, "Transform", source.UDIAssigningAuthority, .tmp, .aux)' property='status' action='set' />
 <if condition='tmp&apos;=""'> 
 <true>
 <assign value='"http://intersystems.com/fhir/extn/sda3/lib/device-u-d-i-assigning-authority"' property='tmp.url' action='set' />
-<assign value='tmp' property='target.udiCarrier.(1).extension' action='set' key='index'  >
+<assign value='tmp' property='target.udi.extension' action='set' key='index'  >
 <annotation>
-<![CDATA[ Additional content defined by implementations ]]>
+<![CDATA[ Additional Content defined by implementations ]]>
 </annotation>
 </assign></true> 
 </if>
@@ -175,8 +127,8 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <if condition='source.UDIExtension&apos;=""'> 
 <true>
 <assign value='target.extension.Count()+1' property='index' action='set' />
-<assign value='##class(HS.FHIR.DTL.vR4.Model.Base.Extension).%New()' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.UDIExtension, "HS.FHIR.DTL.SubXFrm.SDA3.vR4.String.Extension")' property='DTL' action='set' />
+<assign value='##class(HS.FHIR.DTL.vSTU3.Model.Base.Extension).%New()' property='tmp' action='set' />
+<assign value='aux("transformer").GetDTL(source.UDIExtension, "HS.FHIR.DTL.SubXFrm.SDA3.vSTU3.String.Extension")' property='DTL' action='set' />
 <if condition='DTL&apos;=""'> 
 <true>
 <assign value='$classmethod(DTL, "Transform", source.UDIExtension, .tmp, .aux)' property='status' action='set' />
@@ -185,7 +137,7 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <assign value='"http://intersystems.com/fhir/extn/sda3/lib/device-u-d-i-extension"' property='tmp.url' action='set' />
 <assign value='tmp' property='target.extension' action='set' key='index'  >
 <annotation>
-<![CDATA[ Additional content defined by implementations ]]>
+<![CDATA[ Additional Content defined by implementations ]]>
 </annotation>
 </assign></true> 
 </if>
@@ -198,7 +150,7 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <true>
 <if condition='source.UDIHumanReadable&apos;=""'> 
 <true> 
-<assign value='source.UDIHumanReadable' property='target.udiCarrier.(1).carrierHRF' action='set' >
+<assign value='source.UDIHumanReadable' property='target.udi.carrierHRF' action='set' >
 <annotation>
 <![CDATA[ UDI Human Readable Barcode String ]]>
 </annotation>
@@ -212,7 +164,7 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <assign value='##class(HS.FHIR.DTL.Util.Element.TypeCast).Base64Encode(source.UDIMachineReadable)' property='value' action='set' />
 <if condition='value&apos;=""'> 
 <true>
-<assign value='value' property='target.udiCarrier.(1).carrierAIDC' action='set' >
+<assign value='value' property='target.udi.carrierAIDC' action='set' >
 <annotation>
 <![CDATA[ UDI Machine Readable Barcode String ]]>
 </annotation>
@@ -224,7 +176,7 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <true>
 <if condition='source.UDIRoot&apos;=""'> 
 <true> 
-<assign value='source.UDIRoot' property='target.udiCarrier.(1).deviceIdentifier' action='set' >
+<assign value='source.UDIRoot' property='target.udi.deviceIdentifier' action='set' >
 <annotation>
 <![CDATA[ Mandatory fixed portion of UDI ]]>
 </annotation>
@@ -233,9 +185,9 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 
 </true>
 </if>
-<if condition='##class(%Dictionary.ClassDefinition).%ExistsId("HS.FHIR.DTL.Mapping.Extension.SDA3.vR4.Device.Device")'> 
+<if condition='##class(%Dictionary.ClassDefinition).%ExistsId("HS.FHIR.DTL.Mapping.Extension.SDA3.vSTU3.Device.Device")'> 
 <true>
-<assign value='##class(HS.FHIR.DTL.Mapping.Extension.SDA3.vR4.Device.Device).Transform(source.Extension, .target, .aux)' property='target' action='set' />
+<assign value='##class(HS.FHIR.DTL.Mapping.Extension.SDA3.vSTU3.Device.Device).Transform(source.Extension, .target, .aux)' property='target' action='set' />
 </true>
 </if>
 </transform>

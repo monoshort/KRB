@@ -1,13 +1,13 @@
-/// Transforms SDA3 HS.SDA3.Address to vR4 Address
-Class HS.FHIR.DTL.SDA3.vR4.Address.Address Extends Ens.DataTransformDTL [ DependsOn = (HS.SDA3.Address, HS.FHIR.DTL.vR4.Model.Datatype.Address), ProcedureBlock ]
+/// Transforms SDA3 HS.SDA3.Address to vSTU3 Address
+Class HS.FHIR.DTL.SDA3.vSTU3.Address.Address Extends Ens.DataTransformDTL [ DependsOn = (HS.SDA3.Address, HS.FHIR.DTL.vSTU3.Model.Datatype.Address), ProcedureBlock ]
 {
 
 /// This DTL XData block was generated. Do not modify it.
 XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 {
-<transform sourceClass='HS.SDA3.Address' targetClass='HS.FHIR.DTL.vR4.Model.Datatype.Address' create='existing' language='objectscript' >
+<transform sourceClass='HS.SDA3.Address' targetClass='HS.FHIR.DTL.vSTU3.Model.Datatype.Address' create='existing' language='objectscript' >
   <annotation>
-    <![CDATA[ Transforms HS.SDA3.Address (SDA3) to Address (vR4) ]]>
+    <![CDATA[ Transforms HS.SDA3.Address (SDA3) to Address (vSTU3) ]]>
   </annotation>
 <if condition='source.City.Code&apos;=""'> 
 <true>
@@ -163,20 +163,6 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 </if> 
 </true>
 </if>
-<if condition='##class(HS.FHIR.DTL.Util.Element.Object).Defined(source, "Use")'> 
-<true>
-<assign value='##class(HS.FHIR.DTL.Util.Lookup).Code("SDA3","vR4","HS.SDA3.CodeTableDetail.AddressUse","address-use|4.0.1",source.Use)' property='value' action='set' />
-<if condition='value&apos;=""'> 
-<true>
-<assign value='value' property='target.use' action='set' >
-<annotation>
-<![CDATA[ home | work | temp | old | billing - purpose of this address
- --- This mapping entry seeks a lookup table entry that can match a source value with a target value for this field. If the mapping cannot find the lookup table, or cannot find a matching entry in the lookup table, and it has a non-empty Default Value defined, it places its Default Value into the target field. Otherwise, the target receive no value from this mapping. 
- --- If the mapping is SDA to FHIR, and the source field contains a non-empty value, then by convention there are two mapping entries for this source field. Both entries execute under the same Condition to Set this Field. One entry does the lookup to retrieve the value to assign to the target field. The other stores the original source field value in a FHIR extension.    ]]>
-</annotation>
-</assign></true> 
-</if> </true> 
-</if>
 <if condition='source.Zip.Code&apos;=""'> 
 <true>
 <if condition='source.Zip.Code&apos;=""'> 
@@ -207,9 +193,9 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 </if>
 </true>
 </if>
-<if condition='##class(%Dictionary.ClassDefinition).%ExistsId("HS.FHIR.DTL.Mapping.Extension.SDA3.vR4.Address.Address")'> 
+<if condition='##class(%Dictionary.ClassDefinition).%ExistsId("HS.FHIR.DTL.Mapping.Extension.SDA3.vSTU3.Address.Address")'> 
 <true>
-<assign value='##class(HS.FHIR.DTL.Mapping.Extension.SDA3.vR4.Address.Address).Transform(source.Extension, .target, .aux)' property='target' action='set' />
+<assign value='##class(HS.FHIR.DTL.Mapping.Extension.SDA3.vSTU3.Address.Address).Transform(source.Extension, .target, .aux)' property='target' action='set' />
 </true>
 </if>
 </transform>

@@ -1,19 +1,19 @@
-/// Transforms SDA3 HS.SDA3.CodeTableDetail.Organization to vR4 Organization
-Class HS.FHIR.DTL.SDA3.vR4.CodeTableDetail.Organization.Organization Extends Ens.DataTransformDTL [ DependsOn = (HS.SDA3.CodeTableDetail.Organization, HS.FHIR.DTL.vR4.Model.Resource.Organization), ProcedureBlock ]
+/// Transforms SDA3 HS.SDA3.CodeTableDetail.Organization to vSTU3 Organization
+Class HS.FHIR.DTL.SDA3.vSTU3.CodeTableDetail.Organization.Organization Extends Ens.DataTransformDTL [ DependsOn = (HS.SDA3.CodeTableDetail.Organization, HS.FHIR.DTL.vSTU3.Model.Resource.Organization), ProcedureBlock ]
 {
 
 /// This DTL XData block was generated. Do not modify it.
 XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 {
-<transform sourceClass='HS.SDA3.CodeTableDetail.Organization' targetClass='HS.FHIR.DTL.vR4.Model.Resource.Organization' create='existing' language='objectscript' >
+<transform sourceClass='HS.SDA3.CodeTableDetail.Organization' targetClass='HS.FHIR.DTL.vSTU3.Model.Resource.Organization' create='existing' language='objectscript' >
   <annotation>
-    <![CDATA[ Transforms HS.SDA3.CodeTableDetail.Organization (SDA3) to Organization (vR4) ]]>
+    <![CDATA[ Transforms HS.SDA3.CodeTableDetail.Organization (SDA3) to Organization (vSTU3) ]]>
   </annotation>
 <if condition='##class(HS.FHIR.DTL.Util.Element.Object).Defined(source, "Address")'> 
 <true>
 <assign value='target.address.Count()+1' property='index' action='set' />
-<assign value='##class(HS.FHIR.DTL.vR4.Model.Datatype.Address).%New()' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.Address, "HS.FHIR.DTL.SDA3.vR4.Address.Address")' property='DTL' action='set' />
+<assign value='##class(HS.FHIR.DTL.vSTU3.Model.Datatype.Address).%New()' property='tmp' action='set' />
+<assign value='aux("transformer").GetDTL(source.Address, "HS.FHIR.DTL.SDA3.vSTU3.Address.Address")' property='DTL' action='set' />
 <if condition='DTL&apos;=""'> 
 <true>
 <assign value='$classmethod(DTL, "Transform", source.Address, .tmp, .aux)' property='status' action='set' />
@@ -45,8 +45,8 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <if condition='source.CodeSystemVersionId&apos;=""'> 
 <true>
 <assign value='target.extension.Count()+1' property='index' action='set' />
-<assign value='##class(HS.FHIR.DTL.vR4.Model.Base.Extension).%New()' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.CodeSystemVersionId, "HS.FHIR.DTL.SubXFrm.SDA3.vR4.StrippedString.Extension")' property='DTL' action='set' />
+<assign value='##class(HS.FHIR.DTL.vSTU3.Model.Base.Extension).%New()' property='tmp' action='set' />
+<assign value='aux("transformer").GetDTL(source.CodeSystemVersionId, "HS.FHIR.DTL.SubXFrm.SDA3.vSTU3.StrippedString.Extension")' property='DTL' action='set' />
 <if condition='DTL&apos;=""'> 
 <true>
 <assign value='$classmethod(DTL, "Transform", source.CodeSystemVersionId, .tmp, .aux)' property='status' action='set' />
@@ -55,7 +55,7 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <assign value='"http://intersystems.com/fhir/extn/sda3/lib/code-table-detail-organization-code-system-version-id"' property='tmp.url' action='set' />
 <assign value='tmp' property='target.extension' action='set' key='index'  >
 <annotation>
-<![CDATA[ Additional content defined by implementations ]]>
+<![CDATA[ Additional Content defined by implementations ]]>
 </annotation>
 </assign></true> 
 </if>
@@ -67,8 +67,8 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <if condition='##class(HS.FHIR.DTL.Util.Element.Object).Defined(source, "ContactInfo")'> 
 <true>
 <assign value='target.telecom.Count()+1' property='index' action='set' />
-<assign value='##class(HS.FHIR.DTL.vR4.Model.Datatype.ContactPoint).%New()' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.ContactInfo, "HS.FHIR.DTL.SubXFrm.SDA3.vR4.ContactInfo.ContactPoint")' property='DTL' action='set' />
+<assign value='##class(HS.FHIR.DTL.vSTU3.Model.Datatype.ContactPoint).%New()' property='tmp' action='set' />
+<assign value='aux("transformer").GetDTL(source.ContactInfo, "HS.FHIR.DTL.SubXFrm.SDA3.vSTU3.ContactInfo.ContactPoint")' property='DTL' action='set' />
 <if condition='DTL&apos;=""'> 
 <true>
 <assign value='$classmethod(DTL, "Transform", source.ContactInfo, .tmp, .aux)' property='status' action='set' />
@@ -93,34 +93,11 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 </assign></true> 
 </if> 
 
-<foreach property='source.Identifiers()' key='st' >
-<assign value='target.identifier.Count()+1' property='index' action='set' />
-<assign value='##class(HS.FHIR.DTL.vR4.Model.Datatype.Identifier).%New()' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.Identifiers.(st), "HS.FHIR.DTL.SDA3.vR4.Identifier.Identifier")' property='DTL' action='set' />
-<if condition='DTL&apos;=""'> 
-<true>
-<assign value='$classmethod(DTL, "Transform", source.Identifiers.(st), .tmp, .aux)' property='status' action='set' />
-<if condition='tmp&apos;=""'> 
-<true>
-<assign value='tmp' property='target.identifier' action='set' key='index'  >
-<annotation>
-<![CDATA[ Identifies this organization  across multiple systems ]]>
-</annotation>
-</assign></true> 
-</if>
-</true>
-</if>
-</foreach>
-<assign value='$select(source.IsActive="true":1,source.IsActive="false":0, 1:source.IsActive)' property='target.active' action='set' >
-<annotation>
-<![CDATA[ Whether the organization's record is still in active use ]]>
-</annotation>
-</assign>
 <if condition='##class(HS.FHIR.DTL.Util.Element.Object).Defined(source, "MedicalDirector")'> 
 <true>
 <assign value='target.extension.Count()+1' property='index' action='set' />
-<assign value='##class(HS.FHIR.DTL.vR4.Model.Base.Extension).%New()' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.MedicalDirector, "HS.FHIR.DTL.SDA3.vR4.CodeTableDetail.CareProvider.Extension")' property='DTL' action='set' />
+<assign value='##class(HS.FHIR.DTL.vSTU3.Model.Base.Extension).%New()' property='tmp' action='set' />
+<assign value='aux("transformer").GetDTL(source.MedicalDirector, "HS.FHIR.DTL.SDA3.vSTU3.CodeTableDetail.CareProvider.Extension")' property='DTL' action='set' />
 <if condition='DTL&apos;=""'> 
 <true>
 <assign value='$classmethod(DTL, "Transform", source.MedicalDirector, .tmp, .aux)' property='status' action='set' />
@@ -129,7 +106,7 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <assign value='"http://intersystems.com/fhir/extn/sda3/lib/code-table-detail-organization-medical-director"' property='tmp.url' action='set' />
 <assign value='tmp' property='target.extension' action='set' key='index'  >
 <annotation>
-<![CDATA[ Additional content defined by implementations ]]>
+<![CDATA[ Additional Content defined by implementations ]]>
 </annotation>
 </assign></true> 
 </if>
@@ -164,8 +141,8 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 </if> 
 </true> 
 </if> 
-<assign value='##class(HS.FHIR.DTL.vR4.Model.Base.Extension).%New()' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.SDACodingStandard, "HS.FHIR.DTL.SubXFrm.SDA3.vR4.StrippedString.Extension")' property='DTL' action='set' />
+<assign value='##class(HS.FHIR.DTL.vSTU3.Model.Base.Extension).%New()' property='tmp' action='set' />
+<assign value='aux("transformer").GetDTL(source.SDACodingStandard, "HS.FHIR.DTL.SubXFrm.SDA3.vSTU3.StrippedString.Extension")' property='DTL' action='set' />
 <if condition='DTL&apos;=""'> 
 <true>
 <assign value='$classmethod(DTL, "Transform", source.SDACodingStandard, .tmp, .aux)' property='status' action='set' />
@@ -174,7 +151,7 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <assign value='"http://intersystems.com/fhir/extn/sda3/lib/code-table-detail-organization-s-d-a-coding-standard"' property='tmp.url' action='set' />
 <assign value='tmp' property='target.identifier.(1).extension' action='set' key='index'  >
 <annotation>
-<![CDATA[ Additional content defined by implementations ]]>
+<![CDATA[ Additional Content defined by implementations ]]>
 </annotation>
 </assign></true> 
 </if>
@@ -187,8 +164,8 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 </if>
 <foreach property='source.Trusts()' key='st' >
 <assign value='target.extension.Count()+1' property='index' action='set' />
-<assign value='##class(HS.FHIR.DTL.vR4.Model.Base.Extension).%New()' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.Trusts.(st), "HS.FHIR.DTL.SDA3.vR4.CodeTableDetail.Extension")' property='DTL' action='set' />
+<assign value='##class(HS.FHIR.DTL.vSTU3.Model.Base.Extension).%New()' property='tmp' action='set' />
+<assign value='aux("transformer").GetDTL(source.Trusts.(st), "HS.FHIR.DTL.SDA3.vSTU3.CodeTableDetail.Extension")' property='DTL' action='set' />
 <if condition='DTL&apos;=""'> 
 <true>
 <assign value='$classmethod(DTL, "Transform", source.Trusts.(st), .tmp, .aux)' property='status' action='set' />
@@ -197,38 +174,16 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <assign value='"http://intersystems.com/fhir/extn/sda3/lib/code-table-detail-organization-trusts"' property='tmp.url' action='set' />
 <assign value='tmp' property='target.extension' action='set' key='index'  >
 <annotation>
-<![CDATA[ Additional content defined by implementations ]]>
+<![CDATA[ Additional Content defined by implementations ]]>
 </annotation>
 </assign></true> 
 </if>
 </true>
 </if>
 </foreach>
-<if condition='##class(HS.FHIR.DTL.Util.Element.Object).Defined(source, "Type")'> 
+<if condition='##class(%Dictionary.ClassDefinition).%ExistsId("HS.FHIR.DTL.Mapping.Extension.SDA3.vSTU3.CodeTableDetail.Organization.Organization")'> 
 <true>
-<assign value='target.type.Count()+1' property='index' action='set' />
-<assign value='##class(HS.FHIR.DTL.vR4.Model.Datatype.CodeableConcept).%New()' property='tmp' action='set' />
-<assign value='aux("transformer").GetDTL(source.Type, "HS.FHIR.DTL.SDA3.vR4.CodeTableTranslated.CodeableConcept")' property='DTL' action='set' />
-<if condition='DTL&apos;=""'> 
-<true>
-<assign value='$classmethod(DTL, "Transform", source.Type, .tmp, .aux)' property='status' action='set' />
-<if condition='tmp&apos;=""'> 
-<true>
-<assign value='tmp' property='target.type' action='set' key='index'  >
-<annotation>
-<![CDATA[ Kind of organization
- --- In this case, any FHIR4 code may be used; organization-type shows Example codes, but you may use codes from any ValueSet. 
- --- SDA does not restrict code values to a particular set.    ]]>
-</annotation>
-</assign></true> 
-</if>
-</true>
-</if>
-</true> 
-</if>
-<if condition='##class(%Dictionary.ClassDefinition).%ExistsId("HS.FHIR.DTL.Mapping.Extension.SDA3.vR4.CodeTableDetail.Organization.Organization")'> 
-<true>
-<assign value='##class(HS.FHIR.DTL.Mapping.Extension.SDA3.vR4.CodeTableDetail.Organization.Organization).Transform(source.Extension, .target, .aux)' property='target' action='set' />
+<assign value='##class(HS.FHIR.DTL.Mapping.Extension.SDA3.vSTU3.CodeTableDetail.Organization.Organization).Transform(source.Extension, .target, .aux)' property='target' action='set' />
 </true>
 </if>
 </transform>

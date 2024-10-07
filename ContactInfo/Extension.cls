@@ -1,13 +1,13 @@
-/// Transforms SDA3 HS.SDA3.ContactInfo to vR4 Extension
-Class HS.FHIR.DTL.SDA3.vR4.ContactInfo.Extension Extends Ens.DataTransformDTL [ DependsOn = (HS.SDA3.ContactInfo, HS.FHIR.DTL.vR4.Model.Base.Extension), ProcedureBlock ]
+/// Transforms SDA3 HS.SDA3.ContactInfo to vSTU3 Extension
+Class HS.FHIR.DTL.SDA3.vSTU3.ContactInfo.Extension Extends Ens.DataTransformDTL [ DependsOn = (HS.SDA3.ContactInfo, HS.FHIR.DTL.vSTU3.Model.Base.Extension), ProcedureBlock ]
 {
 
 /// This DTL XData block was generated. Do not modify it.
 XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 {
-<transform sourceClass='HS.SDA3.ContactInfo' targetClass='HS.FHIR.DTL.vR4.Model.Base.Extension' create='existing' language='objectscript' >
+<transform sourceClass='HS.SDA3.ContactInfo' targetClass='HS.FHIR.DTL.vSTU3.Model.Base.Extension' create='existing' language='objectscript' >
   <annotation>
-    <![CDATA[ Transforms HS.SDA3.ContactInfo (SDA3) to Extension (vR4) ]]>
+    <![CDATA[ Transforms HS.SDA3.ContactInfo (SDA3) to Extension (vSTU3) ]]>
   </annotation>
 <assign value='"phone"' property='target.valueContactPoint.extension.(1).valueContactPoint.extension.(1).valueContactPoint.extension.(1).valueContactPoint.system' action='set' >
 <annotation>
@@ -116,9 +116,9 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 
 </true>
 </if>
-<if condition='##class(%Dictionary.ClassDefinition).%ExistsId("HS.FHIR.DTL.Mapping.Extension.SDA3.vR4.ContactInfo.Extension")'> 
+<if condition='##class(%Dictionary.ClassDefinition).%ExistsId("HS.FHIR.DTL.Mapping.Extension.SDA3.vSTU3.ContactInfo.Extension")'> 
 <true>
-<assign value='##class(HS.FHIR.DTL.Mapping.Extension.SDA3.vR4.ContactInfo.Extension).Transform(source.Extension, .target, .aux)' property='target' action='set' />
+<assign value='##class(HS.FHIR.DTL.Mapping.Extension.SDA3.vSTU3.ContactInfo.Extension).Transform(source.Extension, .target, .aux)' property='target' action='set' />
 </true>
 </if>
 </transform>
